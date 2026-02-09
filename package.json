@@ -1,0 +1,27 @@
+{
+  "name": "nci-quick-setup",
+  "version": "1.0.0",
+  "description": "Sample configuration for nci deployment",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/node-ci/nci-quick-setup.git"
+  },
+  "author": "Oleg Korobenko <oleg.korobenko@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/node-ci/nci-quick-setup/issues"
+  },
+  "homepage": "https://github.com/node-ci/nci-quick-setup",
+  "dependencies": {
+    "forever": "0.15.1",
+    "leveldown": "5.6.0",
+    "nci": "1.0.27",
+    "nci-classic-ui": "1.0.13",
+    "nci-mail-notification": "1.1.2",
+    "nci-projects-reloader": "2.0.0",
+    "nci-rest-api-server": "2.0.1",
+    "nci-scheduler": "1.2.0",
+    "nci-static-server": "2.0.1",
+    "nci-yaml-reader": "1.2.3"
+  }
+}

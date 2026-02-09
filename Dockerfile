@@ -1,34 +1,23 @@
 FROM alpine:3.22.1
 
 ENV NODE_ENV="production"
-ENV USER="nci"
-ENV USER_ID=2000
-ENV USER_GROUP_ID=2000
+RUN apk add --no-cache openssh git rsync gnupg pass nodejs npm libstdc++ && \
+	apk add --no-cache --virtual .build-deps python3 make g++ && \
+	mkdir -p /var/nci
 
-RUN addgroup -g "$USER_GROUP_ID" "$USER" && \
-	adduser --disabled-password --ingroup "$USER" --uid "$USER_ID" "$USER";
+WORKDIR /var/nci
 
-RUN apk add --no-cache openssh git rsync gnupg pass nodejs npm
-
-RUN mkdir /var/nci
-
-ADD package.json /var/nci
-
-RUN chown -R "$USER":"$USER" /var/nci
-
-USER ${USER}
+COPY package.json package-lock.json /var/nci/
 
 RUN echo "nodejs: `node --version`"
 
-RUN cd /var/nci && \
-	npm install && \
-	npm ci --only=prod && \
-	echo "nodejs: `node --version`" >> dependencies-info.txt && \
-	npmPackages=`cd /var/nci && npm ls --prod --depth=0 | tail -n +2` && \
-	echo -e "npm packages:\n$npmPackages" >> dependencies-info.txt;
+RUN npm ci --omit=dev --no-audit --no-fund && \
+	echo "nodejs: `node --version`" > dependencies-info.txt && \
+	npmPackages=`npm ls --omit=dev --depth=0 | tail -n +2` && \
+	echo -e "npm packages:\n$npmPackages" >> dependencies-info.txt && \
+	apk del .build-deps
 
-USER root
-
-ADD entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
