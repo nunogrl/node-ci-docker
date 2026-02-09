@@ -24,9 +24,9 @@ http:
         locations:
             #serve static for ui plugin
             - url: /favicon.ico
-              root: node_modules/nci-ansible-ui/static/
+              root: node_modules/nci-classic-ui/static/
             - url: !!js/regexp ^/(js|css|fonts|images)/
-              root: node_modules/nci-ansible-ui/static/
+              root: node_modules/nci-classic-ui/static/
 
 storage:
     #use leveldown as db backend
