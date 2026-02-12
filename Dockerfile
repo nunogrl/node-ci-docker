@@ -18,7 +18,7 @@ RUN npm install --omit=dev --no-audit --no-fund && \
 FROM alpine:3.22.1
 
 ENV NODE_ENV="production"
-RUN apk add --no-cache openssh git rsync gnupg pass nodejs libstdc++ && \
+RUN apk add --no-cache openssh-client git rsync gnupg pass nodejs libstdc++ && \
 	mkdir -p /var/nci
 
 WORKDIR /var/nci
